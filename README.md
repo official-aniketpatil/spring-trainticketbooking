@@ -1,0 +1,5 @@
+**Check availability of trains**  
+> The user inputs a source, destination, date of travel and class of travel (Sleeper/AC). All the list of trains that run from the entered source to the destination on that particular date should be displayed along with the available seats in that particular class on that date. (Assuming all trains run on every day.)  
+  
+**Book tickets**
+> When the user selects a train, he/she should be asked the number of tickets they want to book. If the number of tickets entered is greater than the available seats, the user should be notified so. If not, details of the all the passengers should be entered one passenger at a time and the fields being Name, Age, Gender, Contact number. After all the passengers details have been entered, the user can then book the ticket. 
