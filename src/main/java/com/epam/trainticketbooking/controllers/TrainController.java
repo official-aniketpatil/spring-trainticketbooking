@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.epam.trainticketbooking.helper.BookingDetail;
@@ -30,20 +29,17 @@ public class TrainController extends HttpServlet {
 
 	private static final long serialVersionUID = -4838676184738977955L;
 	private static Logger logger = LogManager.getLogger(TrainController.class);
-    
-	@Autowired
-	private TrainService trainService;
-    @Autowired
-    private BookingService bookingService;
-    private final AnnotationConfigApplicationContext context;
-    
-    public TrainController() {
-    	context = new AnnotationConfigApplicationContext(
-				"com.epam.trainticketbooking");
-    	this.trainService = context.getBean(TrainService.class);
-    	this.bookingService = context.getBean(BookingService.class);
+
+	private final TrainService trainService;
+	private final BookingService bookingService;
+	private final AnnotationConfigApplicationContext context;
+
+	public TrainController() {
+		context = new AnnotationConfigApplicationContext("com.epam.trainticketbooking");
+		this.trainService = context.getBean(TrainService.class);
+		this.bookingService = context.getBean(BookingService.class);
 	}
-    
+
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String source = request.getParameter("source").trim();
@@ -75,17 +71,7 @@ public class TrainController extends HttpServlet {
 			String destination = request.getParameter("destination").trim();
 			long trainId = Long.parseLong(request.getParameter("trainId"));
 			Date date = DateConversion.convertToSqlDate(request.getParameter("date"));
-			String[] passengerWithNames = request.getParameterMap().get("passengerName");
-			String[] passengerWithMobileNumber = request.getParameterMap().get("mobile");
-			String[] passengerWithGender = request.getParameterMap().get("gender");
-			for (int i = 0; i < passengerCount; i++) {
-				String name = passengerWithNames[i];
-				String gender = passengerWithGender[i];
-				String mobile = passengerWithMobileNumber[i];
-				Passenger passenger = new Passenger(name, gender, mobile);
-				passengers.add(passenger);
-			}
-			
+			passengers = getPassengers(request);
 			BookingDetail bookingDetail = new BookingDetail(passengers, source, destination, date, seatType,
 					passengerCount, trainId);
 			bookingService.bookTicket(bookingDetail);
@@ -94,5 +80,21 @@ public class TrainController extends HttpServlet {
 		} catch (NumberFormatException | ServletException | IOException ex) {
 			logger.error(ex.getMessage());
 		}
+	}
+
+	private List<Passenger> getPassengers(HttpServletRequest request) {
+		List<Passenger> passengers = new ArrayList<>();
+		String[] passengerWithNames = request.getParameterMap().get("passengerName");
+		String[] passengerWithMobileNumber = request.getParameterMap().get("mobile");
+		String[] passengerWithGender = request.getParameterMap().get("gender");
+		int passengerCount = passengerWithNames.length;
+		for (int i = 0; i < passengerCount; i++) {
+			String name = passengerWithNames[i];
+			String gender = passengerWithGender[i];
+			String mobile = passengerWithMobileNumber[i];
+			Passenger passenger = new Passenger(name, gender, mobile);
+			passengers.add(passenger);
+		}
+		return passengers;
 	}
 }

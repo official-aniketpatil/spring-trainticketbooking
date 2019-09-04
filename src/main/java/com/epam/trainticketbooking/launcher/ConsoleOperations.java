@@ -21,6 +21,7 @@ public class ConsoleOperations {
 	public static void showServiceMenu() {
 		logger.trace("Enter\n1)Show Available Trains");
 		logger.trace("2)Book train");
+		logger.trace("3)Load data");
 	}
 
 	public static void showAvailableTrainsMenu() {

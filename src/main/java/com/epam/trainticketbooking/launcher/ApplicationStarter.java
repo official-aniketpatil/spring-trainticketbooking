@@ -23,6 +23,7 @@ public class ApplicationStarter {
 	private static Logger logger = LogManager.getLogger(ApplicationStarter.class);
 	private static final int SEARCH_TRAINS = 1;
 	private static final int BOOK_TRAIN = 2;
+	private static final int LOAD_DATA = 3;
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
@@ -57,8 +58,7 @@ public class ApplicationStarter {
 			BookingDetail bookingDetail = new BookingDetail(passengers, source, destination, date, seatType, seatCount,
 					trainId);
 			bookingService.bookTicket(bookingDetail);
-		} else {
-			logger.error("Enter a valid choice");
+		} else if (choice == LOAD_DATA) {
 			Availability dayOne = new Availability(1, DateConversion.convertToSqlDate("11-11-2011"), 10, 10);
 			Availability dayTwo = new Availability(1, DateConversion.convertToSqlDate("12-11-2011"), 10, 10);
 			Station s0 = new Station("chennai", 0);
@@ -75,6 +75,9 @@ public class ApplicationStarter {
 			trainDao.save(train);
 			trainDao.setAvailability(dayOne);
 			trainDao.setAvailability(dayTwo);
+			logger.info("train data has been loaded");
+		} else {
+			logger.error("Enter a valid choice");
 		}
 		context.close();
 	}
