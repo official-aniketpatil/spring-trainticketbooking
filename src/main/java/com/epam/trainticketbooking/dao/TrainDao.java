@@ -7,7 +7,7 @@ import com.epam.trainticketbooking.model.Availability;
 import com.epam.trainticketbooking.model.Train;
 
 public interface TrainDao {
-	
+
 	public Train getById(long trainId);
 
 	public List<Train> getByLocation(String source, String destination);
@@ -17,7 +17,7 @@ public interface TrainDao {
 	public Availability getAvailability(long trainId, Date date);
 
 	public Train save(Train train);
-	
+
 	public Train update(Train train);
 
 	Availability setAvailability(Availability availability);

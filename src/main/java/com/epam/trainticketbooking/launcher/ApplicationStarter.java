@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 import com.epam.trainticketbooking.dao.TrainDao;
 import com.epam.trainticketbooking.dao.impl.TrainDaoImpl;
@@ -20,7 +19,6 @@ import com.epam.trainticketbooking.services.BookingService;
 import com.epam.trainticketbooking.services.TrainService;
 import com.epam.trainticketbooking.utility.DateConversion;
 
-@ComponentScan
 public class ApplicationStarter {
 	private static Logger logger = LogManager.getLogger(ApplicationStarter.class);
 	private static final int SEARCH_TRAINS = 1;

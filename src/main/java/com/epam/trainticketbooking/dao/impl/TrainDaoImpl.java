@@ -176,7 +176,7 @@ public class TrainDaoImpl implements TrainDao {
 			return availability;
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
-			throw new DataAccessException("unable to set Availability of train");
+			throw new DataWriteException("unable to set Availability of train");
 		} finally {
 			entityManager.close();
 			entityManagerFactory.close();

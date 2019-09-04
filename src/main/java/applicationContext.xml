@@ -7,8 +7,6 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
 
-
-	<!-- Define your beans here -->
 	<bean id="bookingService"
 		class="com.epam.trainticketbooking.services.BookingService">
 		<constructor-arg name="ticketDao" ref="ticketDao"></constructor-arg>
@@ -18,9 +16,10 @@
 		class="com.epam.trainticketbooking.services.TrainService">
 		<constructor-arg name="trainDao" ref="trainDao"></constructor-arg>
 	</bean>
-	<!-- define the dependency -->
-	<bean name="trainDao" class="com.epam.trainticketbooking.dao.impl.TrainDaoImpl"></bean>
-	<bean name="ticketDao" class="com.epam.trainticketbooking.dao.impl.TicketDaoImpl"></bean>
+	<bean name="trainDao"
+		class="com.epam.trainticketbooking.dao.impl.TrainDaoImpl"></bean>
+	<bean name="ticketDao"
+		class="com.epam.trainticketbooking.dao.impl.TicketDaoImpl"></bean>
 </beans>
 
 

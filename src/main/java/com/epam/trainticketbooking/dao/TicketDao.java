@@ -11,7 +11,7 @@ public interface TicketDao {
 
 	public Ticket book(BookingDetail bookingDetail);
 	
-	public Ticket getBy(long ticketId);
+	public Ticket getById(long ticketId);
 	
 	public List<Ticket> getByTrain(long trainId);
 }

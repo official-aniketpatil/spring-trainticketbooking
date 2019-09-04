@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.epam.trainticketbooking.dao.impl.TicketDaoImpl;
-import com.epam.trainticketbooking.dao.impl.TrainDaoImpl;
 import com.epam.trainticketbooking.helper.BookingDetail;
 import com.epam.trainticketbooking.model.Availability;
 import com.epam.trainticketbooking.model.Passenger;
@@ -30,14 +30,26 @@ public class TrainController extends HttpServlet {
 
 	private static final long serialVersionUID = -4838676184738977955L;
 	private static Logger logger = LogManager.getLogger(TrainController.class);
-
+    
+	@Autowired
+	private TrainService trainService;
+    @Autowired
+    private BookingService bookingService;
+    private final AnnotationConfigApplicationContext context;
+    
+    public TrainController() {
+    	context = new AnnotationConfigApplicationContext(
+				"com.epam.trainticketbooking");
+    	this.trainService = context.getBean(TrainService.class);
+    	this.bookingService = context.getBean(BookingService.class);
+	}
+    
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String source = request.getParameter("source").trim();
 		String destination = request.getParameter("destination").trim();
 		String inputDate = request.getParameter("date").trim();
 		Date date = DateConversion.convertToSqlDate(inputDate);
-		TrainService trainService = new TrainService(new TrainDaoImpl());
 		List<Train> trains = trainService.findTrains(source, destination, date);
 		List<Availability> availabilities = new ArrayList<>();
 		for (Train train : trains) {
@@ -73,7 +85,7 @@ public class TrainController extends HttpServlet {
 				Passenger passenger = new Passenger(name, gender, mobile);
 				passengers.add(passenger);
 			}
-			BookingService bookingService = new BookingService(new TicketDaoImpl(), new TrainDaoImpl());
+			
 			BookingDetail bookingDetail = new BookingDetail(passengers, source, destination, date, seatType,
 					passengerCount, trainId);
 			bookingService.bookTicket(bookingDetail);

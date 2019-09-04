@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.epam.trainticketbooking.dao.TicketDao;
 import com.epam.trainticketbooking.dao.TrainDao;
+import com.epam.trainticketbooking.exceptions.SeatNotAvailableException;
 import com.epam.trainticketbooking.helper.BookingDetail;
 import com.epam.trainticketbooking.model.Availability;
 import com.epam.trainticketbooking.model.Station;
@@ -51,10 +52,11 @@ public class BookingService {
 			updateSeatCount(availability, seatType, seatCount);
 			trainDao.updateAvailability(availability);
 			logger.trace("seat booked");
+			return ticket;
 		} else {
 			logger.trace("not able to book seat");
+			throw new SeatNotAvailableException("seat not available to book");
 		}
-		return ticket;
 	}
 
 	private boolean isSeatAvailableToBook(Availability availability, String seatType, int seatCount) {
@@ -94,5 +96,13 @@ public class BookingService {
 			}
 		}
 		return distanceToDestination - distanceToSource;
+	}
+
+	public Ticket getTicketById(long ticketId) {
+		return this.ticketDao.getById(ticketId);
+	}
+
+	public List<Ticket> getTicketByTrain(long trainId) {
+		return this.ticketDao.getByTrain(trainId);
 	}
 }

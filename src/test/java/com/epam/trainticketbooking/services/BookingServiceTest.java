@@ -31,33 +31,36 @@ class BookingServiceTest {
 	@Mock
 	private TrainDao trainDao;
 
-	private Availability availability;
-
 	private BookingService bookingService;
 
 	private BookingDetail bookingDetail;
 
 	private Ticket ticket;
 
+	private static final String CHENNAI = "chennnai";
+	private static final String BHOPAL = "bhopal";
+	private static final String PUNE = "pune";
+	private static final String HYDERABAD = "hyderabad";
+
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		MockitoAnnotations.initMocks(this);
-		availability = new Availability(1, DateConversion.convertToSqlDate("11-11-2011"), 10, 10);
+		Availability availability = new Availability(1, DateConversion.convertToSqlDate("11-11-2011"), 10, 10);
 		List<Passenger> passengers = new ArrayList<>();
-		Station s0 = new Station("chennai", 0);
-		Station s1 = new Station("hyderabad", 300);
-		Station s2 = new Station("pune", 500);
-		Station s3 = new Station("bhopal", 900);
+		Station s0 = new Station(CHENNAI, 0);
+		Station s1 = new Station(HYDERABAD, 300);
+		Station s2 = new Station(PUNE, 500);
+		Station s3 = new Station(BHOPAL, 900);
 		List<Station> stations = new ArrayList<>();
 		stations.add(s0);
 		stations.add(s1);
 		stations.add(s2);
 		stations.add(s3);
-		Train train = new Train(stations, "chennai", "bhopal");
+		Train train = new Train(stations, CHENNAI, BHOPAL);
 		Passenger passenger = new Passenger("aniket", "male", "9145752925");
 		passengers.add(passenger);
-		String source = "chennai";
-		String destination = "bhopal";
+		String source = CHENNAI;
+		String destination = BHOPAL;
 		Date date = DateConversion.convertToSqlDate("11-11-2011");
 		String seatType = "AC";
 		int seatCount = 10;
@@ -78,10 +81,5 @@ class BookingServiceTest {
 		bookingDetail.setSeatType("SLEEPER");
 		Ticket actualTicket = bookingService.bookTicket(bookingDetail);
 		assertEquals(actualTicket, actual);
-	}
-
-	@Test
-	public void testIsSeatAvailableToBook() {
-
 	}
 }

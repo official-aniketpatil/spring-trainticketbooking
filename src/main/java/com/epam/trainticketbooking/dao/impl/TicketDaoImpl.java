@@ -60,7 +60,7 @@ public class TicketDaoImpl implements TicketDao {
 	}
 
 	@Override
-	public Ticket getBy(long ticketId) {
+	public Ticket getById(long ticketId) {
 		try {
 			entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 			entityManager = entityManagerFactory.createEntityManager();
